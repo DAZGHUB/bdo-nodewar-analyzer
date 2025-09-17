@@ -1,0 +1,164 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #2c2f33;
+    color: #ffffff;
+    margin: 0;
+    font-size: 14px;
+}
+.main-wrapper { display: flex; min-height: 100vh; }
+#historyPanel { background-color: #23272a; width: 280px; padding: 20px; border-right: 2px solid #4f545c; box-shadow: 2px 0 10px rgba(0,0,0,0.4); overflow-y: auto; }
+#historyPanel h2 { color: #7289da; margin-top: 0; text-align: center; }
+#historyList { list-style: none; padding: 0; margin: 0; }
+#historyList li { background-color: #2f3136; padding: 12px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; }
+#historyList .history-name { font-weight: bold; margin-bottom: 8px; }
+#historyList .history-controls button { font-size: 12px; padding: 5px 10px; width: 48%; }
+.history-controls .load-btn { background-color: #4CAF50; }
+.history-controls .delete-btn { background-color: #f44336; }
+.ocr-error { background-color: #a83232; color: white; font-weight: bold; cursor: pointer; }
+.name-warning { background-color: #b0a02c; color: black; font-weight: bold; }
+.container { padding: 30px; flex-grow: 1; max-width: calc(100% - 320px); text-align: center; }
+h1, h2, h3 { color: #7289da; margin-top: 0; }
+h2 { margin-top: 20px; border-bottom: 1px solid #4f545c; padding-bottom: 10px; }
+.controls { margin: 15px 0; display: flex; justify-content: center; gap: 10px; align-items: center; }
+input[type="file"], input[type="text"], select { border: 1px solid #7289da; padding: 10px; border-radius: 5px; background-color: #2c2f33; color: white; }
+input[type="file"] { cursor: pointer; }
+button { background-color: #7289da; color: white; border: none; padding: 12px 25px; border-radius: 5px; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+button:hover { background-color: #5f73bc; }
+#resetBtn { background-color: #6a727a; }
+#resetBtn:hover { background-color: #808892; }
+#exportXmlBtn { background-color: #008CBA; }
+#exportXmlBtn:hover { background-color: #007B9A; }
+#saveBtn { background-color: #4CAF50; }
+#saveBtn:hover { background-color: #45a049; }
+.delete-row-btn { background-color: #f44336; padding: 5px 10px; font-size: 12px; width: 100%; }
+.delete-row-btn:hover { background-color: #d32f2f; }
+#status, #rosterStatus { margin-top: 20px; font-style: italic; color: #99aab5; }
+.hidden {
+    display: none !important;
+    pointer-events: none; /* Add this line */
+}
+#preprocessing, #results { margin-top: 30px; }
+#previewCanvas { max-width: 100%; border: 2px solid #4f545c; margin-top: 15px; border-radius: 5px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #4f545c; padding: 12px; text-align: left; }
+th { background-color: #7289da; color: white; }
+th[data-column] { cursor: pointer; user-select: none; }
+th[data-column]:hover { background-color: #5f73bc; }
+tbody tr:nth-child(even) { background-color: #2f3136; }
+.section-divider { border: 0; height: 2px; background-color: #4f545c; margin: 40px 0; }
+.section-divider-short { border: 0; height: 1px; background-color: #4f545c; margin: 20px 0; }
+#rosterDisplayContainer { margin-top: 20px; }
+#rosterDisplay { max-height: 200px; overflow-y: auto; background-color: #23272a; border: 1px solid #4f545c; border-radius: 5px; padding: 10px; text-align: left; column-count: 4; }
+#rosterDisplay span { display: block; padding: 2px 5px; }
+.roster-controls { padding: 15px; background-color: #23272a; border-radius: 8px; }
+.roster-controls h3 { margin-top: 0; }
+.roster-controls input, .roster-controls button { width: 100%; box-sizing: border-box; margin-top: 10px; }
+#guildListContainer { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.guild-list-item { display: flex; justify-content: space-between; align-items: center; background-color: #2f3136; padding: 10px; border-radius: 5px; }
+.guild-info { text-align: left; }
+.guild-info .name { font-weight: bold; font-size: 1.1em; }
+.guild-info .details { font-size: 0.8em; color: #99aab5; }
+.guild-actions button { font-size: 12px; padding: 5px 10px; margin-left: 5px; }
+.guild-actions .update-btn { background-color: #008CBA; }
+.guild-actions .delete-btn { background-color: #f44336; }
+#summaryStats {
+    text-align: left;
+    margin: 20px 0 15px 0;
+    padding: 15px;
+    background-color: #23272a;
+    border-radius: 5px;
+    border: 1px solid #4f545c;
+}
+
+#summaryStats p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+#summaryStats strong {
+    color: #7289da;
+}
+
+/* ... existing styles ... */
+
+#resetCropBtn {
+    background-color: #f44336;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+#resetCropBtn:hover {
+    background-color: #d32f2f;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #2c2f33;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #7289da;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content h3, .modal-content p {
+    text-align: center;
+    margin-top: 0;
+}
+
+.modal-image-container {
+    flex-grow: 1;
+    min-height: 0; /* Important for flexbox shrinking */
+}
+
+/* Cropper.js requires the image to be max-width: 100% */
+#cropImage {
+    max-width: 100%;
+    max-height: 65vh; /* Limit image height to fit in modal */
+    display: block;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-actions #confirmCropBtn {
+    background-color: #4CAF50;
+}
+.modal-actions #confirmCropBtn:hover {
+    background-color: #45a049;
+}
+
+.modal-actions #cancelCropBtn {
+    background-color: #6a727a;
+}
+.modal-actions #cancelCropBtn:hover {
+    background-color: #808892;
+}
+
+/* Add this new class definition to style.css */
+
+.ocr-warning {
+    background-color: #f0c629; /* A distinct yellow color */
+    color: #2c2f33;
+    font-weight: bold;
+    cursor: pointer;
+}

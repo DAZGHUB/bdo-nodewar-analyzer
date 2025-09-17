@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guild Stats Toolkit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div id="historyPanel">
+            <h2>Analysis History 📜</h2>
+            <ul id="historyList"></ul>
+        </div>
+        <div class="container">
+            <h1>Guild Stats Toolkit 🛠️</h1>
+            
+            <div class="tool-section">
+                <h2>Roster Management</h2>
+                <p>Add guilds and update their rosters by uploading their saved .html file. All rosters are combined into one master list for the analyzer.</p>
+                <div id="guildListContainer"></div>
+                <div class="roster-controls">
+                    <h3>Add New Guild to Manager</h3>
+                    <input type="text" id="newGuildName" placeholder="Enter Guild Name (e.g., Ecchi_Squad)">
+                    <button id="addGuildBtn">Add Guild</button>
+                </div>
+                <hr class="section-divider-short">
+                <div id="rosterDisplayContainer">
+                    <h3>Combined Ally Roster (<span id="rosterCount">0</span> unique members)</h3>
+                    <div id="rosterDisplay"></div>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <div class="tool-section">
+                <h2>Screenshot Analyzer</h2>
+                <p>Upload screenshots. The first time, you'll be asked to select the stats area. This selection will be saved for future use.</p>
+                <div class="controls">
+                    <input type="file" id="imageUpload" accept="image/*" multiple>
+                    <button id="analyzeBtn">Analyze Image(s)</button>
+                    <button id="resetCropBtn">Reset Crop</button>
+                </div>
+                <div class="controls secondary-controls">
+                    <button id="saveBtn">Save Analysis</button>
+                    <button id="exportXmlBtn">Export to XML</button>
+                    <button id="resetBtn">Reset Analysis</button>
+                </div>
+                <div id="status"></div>
+                <div id="preprocessing" class="hidden">
+                    <h3>Image Preview</h3>
+                    <canvas id="previewCanvas"></canvas>
+                </div>
+                <div id="results" class="hidden">
+                    <h3>Analysis Results</h3>
+                    <div id="summaryStats">
+                        </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-column="familyName">Family Name</th>
+                                <th data-column="commandPostDestroyed">Cmd Post</th>
+                                <th data-column="fortsDestroyed">Forts</th>
+                                <th data-column="gatesDestroyed">Gates</th>
+                                <th data-column="mountsKilled">Mounts</th>
+                                <th data-column="objectsDestroyed">Objects</th>
+                                <th data-column="kills">Kills</th>
+                                <th data-column="deaths">Deaths</th>
+                                <th data-column="kdRatio">K/D Ratio</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cropModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Select the Stats Area</h3>
+            <p>Draw a box around the entire stats table, from the first player's name to the last player's K/D ratio.</p>
+            <div class="modal-image-container">
+                <img id="cropImage" src="">
+            </div>
+            <div class="modal-actions">
+                <button id="confirmCropBtn">Confirm Selection</button>
+                <button id="cancelCropBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
