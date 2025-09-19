@@ -1,7 +1,3 @@
-/**
- * @fileoverview Manages saving, loading, and deleting analysis history from localStorage.
- */
-
 import {
     state
 } from './state.js';

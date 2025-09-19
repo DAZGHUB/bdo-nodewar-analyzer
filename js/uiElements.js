@@ -1,7 +1,3 @@
-/**
- * @fileoverview Selects and exports all necessary DOM elements.
- */
-
 export const DOMElements = {
     imageUpload: document.getElementById('imageUpload'),
     analyzeBtn: document.getElementById('analyzeBtn'),
@@ -26,4 +22,10 @@ export const DOMElements = {
     confirmCropBtn: document.getElementById('confirmCropBtn'),
     cancelCropBtn: document.getElementById('cancelCropBtn'),
     resetCropBtn: document.getElementById('resetCropBtn'),
+    thresholdSlider: document.getElementById('thresholdSlider'),
+    thresholdValue: document.getElementById('thresholdValue'),
+    brightnessSlider: document.getElementById('brightnessSlider'),
+    brightnessValue: document.getElementById('brightnessValue'),
+    imagePreviewContainer: document.getElementById('imagePreviewContainer'),
+    imagePreview: document.getElementById('imagePreview'),
 };

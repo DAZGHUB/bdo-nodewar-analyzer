@@ -20,7 +20,7 @@
             
             <div class="tool-section">
                 <h2>Roster Management</h2>
-                <p>Add guilds and update their rosters by uploading their saved .html file. All rosters are combined into one master list for the analyzer.</p>
+                <p>Add guilds and update their rosters. Click "Update Roster" to automatically fetch the latest version.</p>
                 <div id="guildListContainer"></div>
                 <div class="roster-controls">
                     <h3>Add New Guild to Manager</h3>
@@ -38,26 +38,43 @@
 
             <div class="tool-section">
                 <h2>Screenshot Analyzer</h2>
-                <p>Upload screenshots. The first time, you'll be asked to select the stats area. This selection will be saved for future use.</p>
+                <p>Upload screenshots and tune the OCR settings for the best result. The pre-processed image will appear below for debugging.</p>
                 <div class="controls">
                     <input type="file" id="imageUpload" accept="image/*" multiple>
                     <button id="analyzeBtn">Analyze Image(s)</button>
                     <button id="resetCropBtn">Reset Crop</button>
                 </div>
+
+                <div id="ocrSettings" class="controls">
+                    <label for="thresholdSlider">OCR Threshold:</label>
+                    <input type="range" id="thresholdSlider" min="50" max="200" value="150">
+                    <span id="thresholdValue">150</span>
+                    <label for="brightnessSlider">Brightness:</label>
+                    <input type="range" id="brightnessSlider" min="0.5" max="1.5" value="1" step="0.1">
+                    <span id="brightnessValue">1.0</span>
+                </div>
+
                 <div class="controls secondary-controls">
                     <button id="saveBtn">Save Analysis</button>
                     <button id="exportXmlBtn">Export to XML</button>
                     <button id="resetBtn">Reset Analysis</button>
                 </div>
+
+                <div id="imagePreviewContainer" class="hidden">
+                    <h3>Selected Image Preview</h3>
+                    <img id="imagePreview" src="" alt="Selected image preview">
+                </div>
+                
                 <div id="status"></div>
+                
                 <div id="preprocessing" class="hidden">
-                    <h3>Image Preview</h3>
+                    <h3>OCR Debug Preview (What the OCR sees)</h3>
                     <canvas id="previewCanvas"></canvas>
                 </div>
+                
                 <div id="results" class="hidden">
                     <h3>Analysis Results</h3>
-                    <div id="summaryStats">
-                        </div>
+                    <div id="summaryStats"></div>
                     <table>
                         <thead>
                             <tr>
@@ -94,6 +111,6 @@
         </div>
     </div>
 
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/renderer.js"></script>
 </body>
 </html>

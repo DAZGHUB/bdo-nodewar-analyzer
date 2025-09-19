@@ -1,19 +1,22 @@
-/**
- * @fileoverview Handles all DOM manipulation and rendering.
- */
-
-import {
-    DOMElements
-} from './uiElements.js';
-import {
-    state
-} from './state.js';
+import { DOMElements } from './uiElements.js';
+import { state } from './state.js';
 
 export function showNotification(message, isError = false) {
-    // A non-blocking replacement for alert(). In Phase 2, this will be a proper toast notification.
     console.log(`Notification: ${message}`);
     DOMElements.statusEl.textContent = message;
     DOMElements.statusEl.style.color = isError ? '#f44336' : '#99aab5';
+}
+
+export function resetUI() {
+    state.aggregatedData.clear();
+    DOMElements.tableBody.innerHTML = '';
+    DOMElements.resultsEl.classList.add('hidden');
+    DOMElements.preprocessingEl.classList.add('hidden');
+    DOMElements.imageUpload.value = '';
+    DOMElements.summaryStatsEl.innerHTML = '';
+    DOMElements.imagePreviewContainer.classList.add('hidden');
+    DOMElements.imagePreview.src = '';
+    showNotification('Current analysis has been reset.');
 }
 
 export function renderHistoryPanel(history) {
@@ -44,8 +47,7 @@ export function renderRosterManager() {
                 <div class="details">Updated: ${lastUpdated} | ${memberCount} members</div>
             </div>
             <div class="guild-actions">
-                <input type="file" class="update-roster-input" data-guild-name="${guildName}" accept=".html, .htm" style="display:none;">
-                <button class="update-btn" onclick="document.querySelector('input[data-guild-name=\\'${guildName}\\']').click()">Update Roster</button>
+                <button class="update-btn" data-guild-name="${guildName}">Update Roster</button>
                 <button class="delete-btn" data-guild-name="${guildName}">Delete</button>
             </div>
         `;
@@ -66,42 +68,31 @@ export function displayCombinedRoster() {
 export function displayResults(dataArray) {
     DOMElements.tableBody.innerHTML = '';
     DOMElements.summaryStatsEl.innerHTML = `<p><strong>Players Found:</strong> ${dataArray.length}</p>`;
-
     if (!dataArray || dataArray.length === 0) {
         DOMElements.tableBody.innerHTML = '<tr><td colspan="10">No data to display.</td></tr>';
         return;
     }
-    
     const CONFIDENCE_THRESHOLD = 85;
-
     dataArray.forEach(player => {
         const row = document.createElement('tr');
         const isOfficial = state.currentRosterMembers.includes(player.familyName);
         const nameClass = isOfficial ? '' : 'class="name-warning"';
         let rowHTML = `<td ${nameClass}>${player.familyName}</td>`;
-
         const statKeys = ['commandPostDestroyed', 'fortsDestroyed', 'gatesDestroyed', 'mountsKilled', 'objectsDestroyed', 'kills', 'deaths'];
         statKeys.forEach(key => {
-            // --- MODIFICATION ---
-            // Read from the new data object structure
             const stat = player[key];
             const value = stat.value;
             const confidence = stat.confidence;
-
             if (typeof value === 'number') {
                 if (confidence < CONFIDENCE_THRESHOLD) {
-                    // It's a number, but confidence is low
                     rowHTML += `<td class="ocr-warning" contenteditable="true" data-player="${player.familyName}" data-stat="${key}">${value}</td>`;
                 } else {
-                    // It's a number with high confidence
                     rowHTML += `<td>${value}</td>`;
                 }
             } else {
-                // It's not a number at all (e.g., "???")
                 rowHTML += `<td class="ocr-error" contenteditable="true" data-player="${player.familyName}" data-stat="${key}">${value || ''}</td>`;
             }
         });
-
         const kills = player.kills.value;
         const deaths = player.deaths.value;
         const isKdCalculable = typeof kills === 'number' && typeof deaths === 'number';
@@ -111,16 +102,5 @@ export function displayResults(dataArray) {
         row.innerHTML = rowHTML;
         DOMElements.tableBody.appendChild(row);
     });
-
     DOMElements.resultsEl.classList.remove('hidden');
-}
-
-
-export function resetUI() {
-    DOMElements.tableBody.innerHTML = '';
-    DOMElements.resultsEl.classList.add('hidden');
-    DOMElements.preprocessingEl.classList.add('hidden');
-    DOMElements.imageUpload.value = '';
-    DOMElements.summaryStatsEl.innerHTML = '';
-    showNotification('Current analysis has been reset.');
 }

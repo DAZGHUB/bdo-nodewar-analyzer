@@ -1,7 +1,3 @@
-/**
- * @fileoverview Handles exporting data to various formats.
- */
-
 import {
     state
 } from './state.js';

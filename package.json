@@ -1,0 +1,28 @@
+{
+  "name": "guild-stats-toolkit",
+  "version": "1.0.0",
+  "description": "A desktop tool to analyze guild stats from screenshots.",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "sharp": "^0.33.4",
+    "tesseract.js": "^5.1.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "electron": "^31.0.1",
+    "javascript-obfuscator": "^4.1.0"
+  }
+}

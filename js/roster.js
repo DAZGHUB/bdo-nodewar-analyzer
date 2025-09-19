@@ -1,7 +1,3 @@
-/**
- * @fileoverview Handles all roster management logic.
- */
-
 import {
     state
 } from './state.js';
@@ -47,24 +43,20 @@ export function deleteGuild(guildName) {
     }
 }
 
-export function updateRosterFromFile(file, guildName) {
-    if (!file || !guildName) return;
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        try {
-            const names = parseRosterFromHtml(e.target.result);
-            if (names.length === 0) throw new Error("Could not find any member names in the file.");
-            state.allRosters[guildName].members = names;
-            state.allRosters[guildName].lastUpdated = new Date().toISOString();
-            saveRostersToStorage();
-            renderRosterManager();
-            rebuildAllyRoster();
-            showNotification(`Roster for ${guildName} updated successfully.`);
-        } catch (error) {
-            showNotification(`Error parsing file: ${error.message}`, true);
-        }
-    };
-    reader.readAsText(file);
+export function updateRosterFromHtml(html, guildName) {
+    try {
+        const names = parseRosterFromHtml(html);
+        if (names.length === 0) throw new Error("Could not find any member names in the fetched HTML.");
+        state.allRosters[guildName].members = names;
+        state.allRosters[guildName].lastUpdated = new Date().toISOString();
+        saveRostersToStorage();
+        renderRosterManager();
+        rebuildAllyRoster();
+        showNotification(`Roster for ${guildName} updated successfully.`);
+    } catch (error) {
+        showNotification(`Error updating roster: ${error.message}`, true);
+        console.error(error);
+    }
 }
 
 function parseRosterFromHtml(html) {
